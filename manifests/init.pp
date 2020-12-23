@@ -13,8 +13,8 @@ class openssh (
   Hash[String, Array[String]] $users = []
 ) {
   case $::osfamily {
-    'Archlinux': { include hostname::systemd }
-    'Arch': { include hostname::systemd }
+    'Archlinux': { include openssh::systemd }
+    'Arch': { include openssh::systemd }
     default: { fail("Hostname module does not support ${::osfamily}") }
   }
 }
