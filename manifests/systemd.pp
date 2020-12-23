@@ -1,13 +1,16 @@
 ##
 # Definitions for systemd
 class openssh::systemd {
-  group { 'sshaccess': }
-
-  -> package { 'openssh': }
+  package { 'openssh': }
 
   -> file { '/etc/ssh/sshd_config':
     ensure => present,
     source => 'puppet:///modules/openssh/sshd_config'
+  }
+
+  -> service { 'sshd':
+    ensure => running,
+    enable => true,
   }
 
   -> file { '/etc/ssh/authorized_keys':
@@ -17,7 +20,9 @@ class openssh::systemd {
     mode   => '0755'
   }
 
-  -> $openssh::users.each |String $user, Array[String] $keys| {
+  group { 'sshaccess': }
+
+  $openssh::users.each |String $user, Array[String] $keys| {
     file { "/etc/ssh/authorized_keys/${user}":
       ensure  => present,
       content => template('openssh/authorized_keys.erb')
@@ -30,8 +35,4 @@ class openssh::systemd {
     }
   }
 
-  -> service { 'sshd':
-    ensure => running,
-    enable => true,
-  }
 }
