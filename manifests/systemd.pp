@@ -23,6 +23,10 @@ class openssh::systemd {
   group { 'sshaccess': }
 
   $openssh::users.each |String $user, Array[String] $keys| {
+    $homedir = $user ? {
+      'root'  => '/root',
+      default => "/home/${user}"
+    }
     file { "/etc/ssh/authorized_keys/${user}":
       ensure  => present,
       content => template('openssh/authorized_keys.erb')
@@ -30,7 +34,7 @@ class openssh::systemd {
     user { $user:
       ensure     => present,
       groups     => ['sshaccess'],
-      home       => "/home/${user}",
+      home       => $homedir,
       managehome => true
     }
   }
