@@ -17,7 +17,7 @@ class openssh::systemd {
     mode   => '0755'
   }
 
-  -> $openssh::users.each |String $user, String $keys| {
+  -> $openssh::users.each |String $user, Array[String] $keys| {
     file { "/etc/ssh/authorized_keys/${user}":
       ensure  => present,
       content => template('openssh/authorized_keys.erb')
