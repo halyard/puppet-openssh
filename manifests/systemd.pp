@@ -6,29 +6,27 @@ class openssh::systemd {
   -> package { 'openssh': }
 
   -> file { '/etc/ssh/sshd_config':
-    ensure  => present,
+    ensure => present,
     source => 'puppet:///modules/openssh/sshd_config'
   }
 
   -> file { '/etc/ssh/authorized_keys':
     ensure => directory,
-    owner => root,
-    group => sshaccess,
-    mode => 0755
+    owner  => root,
+    group  => sshaccess,
+    mode   => '0755'
   }
 
   -> $openssh::users.each |String $user, String $keys| {
     file { "/etc/ssh/authorized_keys/${user}":
-      ensure => present,
+      ensure   => present,
       contents => $keys
     }
-    file { "/home/$user":
-      ensure => directory
-    }
     user { $user:
-      ensure => present,
-      groups => ['sshaccess'],
-      home => "/home/$user"
+      ensure     => present,
+      groups     => ['sshaccess'],
+      home       => "/home/${user}",
+      managehome => true
     }
   }
 
