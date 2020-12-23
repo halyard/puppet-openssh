@@ -25,5 +25,3 @@
     Subsystem sftp internal-sftp
     TCPKeepAlive no
     UseDNS no
-    UseLogin no
-    UsePrivilegeSeparation sandbox
