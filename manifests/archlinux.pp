@@ -5,7 +5,9 @@ class openssh::archlinux {
     provider => 'pacman'
   }
 
-  -> class { 'openssh::linux': }
+  -> class { 'openssh::linux':
+    notify => Service['sshd']
+  }
 
   -> service { 'sshd':
     ensure   => running,
