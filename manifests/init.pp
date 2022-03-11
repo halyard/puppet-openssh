@@ -1,20 +1,10 @@
-# == Class: hostname
+# @summary Configure openssh server
 #
-# Set up openssh server
-#
-# === Parameters
-#
-# === Example
-#
-#   class { 'openssh': }
-#
-
 class openssh (
-  Hash[String, Array[String]] $users = []
 ) {
-  case $::osfamily {
-    'Archlinux': { include openssh::archlinux }
-    'Arch': { include openssh::archlinux }
-    default: { fail("Hostname module does not support ${::osfamily}") }
+  case $facts['os']['family'] {
+    'Archlinux': { include openssh::systemd }
+    'Arch': { include openssh::systemd }
+    default: { fail("Hostname module does not support ${facts['os']['family']}") }
   }
 }

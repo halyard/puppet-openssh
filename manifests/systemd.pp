@@ -1,10 +1,20 @@
 ##
 # Definitions for general Linux setup
-class openssh::linux {
-  file { '/etc/ssh/sshd_config':
+class openssh::systemd {
+  package { 'openssh': }
+
+  -> file { '/etc/ssh/sshd_config':
     ensure => present,
     source => 'puppet:///modules/openssh/sshd_config'
   }
+
+  ~> service { 'sshd':
+    ensure   => running,
+    enable   => true,
+    provider => 'systemd'
+  }
+
+  group { 'sshaccess': }
 
   file { '/etc/ssh/authorized_keys':
     ensure => directory,
@@ -12,8 +22,6 @@ class openssh::linux {
     group  => sshaccess,
     mode   => '0755'
   }
-
-  group { 'sshaccess': }
 
   $openssh::users.each |String $user, Array[String] $keys| {
     $homedir = $user ? {

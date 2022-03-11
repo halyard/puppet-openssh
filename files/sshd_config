@@ -1,27 +1,36 @@
-AllowGroups sshaccess
-AuthorizedKeysFile      /etc/ssh/authorized_keys/%u
-ChallengeResponseAuthentication no
-Ciphers chacha20-poly1305@openssh.com
-ClientAliveCountMax 2
-ClientAliveInterval 86400
-Compression no
-HostBasedAuthentication no
-IgnoreUserKnownHosts yes
-KexAlgorithms curve25519-sha256@libssh.org
-LoginGraceTime 30
-MACs hmac-sha2-512-etm@openssh.com
-MaxSessions 5
-MaxStartups 10
-PasswordAuthentication no
-PermitEmptyPasswords no
-PermitRootLogin yes
-Port 22
-PrintLastlog yes
-PrintMotd no
 Protocol 2
-PubkeyAuthentication yes
+Port 22
+
+Compression no
 RekeyLimit 1G 1H
 StrictModes yes
-Subsystem sftp internal-sftp
 TCPKeepAlive no
 UseDNS no
+
+Ciphers chacha20-poly1305@openssh.com
+KexAlgorithms curve25519-sha256@libssh.org
+MACs hmac-sha2-512-etm@openssh.com
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+HostBasedAuthentication no
+IgnoreUserKnownHosts yes
+PubkeyAuthentication yes
+PermitEmptyPasswords no
+PermitRootLogin yes
+
+ClientAliveCountMax 2
+ClientAliveInterval 86400
+
+AllowGroups sshaccess
+AuthorizedKeysFile /etc/ssh/authorized_keys/%u
+
+LoginGraceTime 30
+MaxSessions 5
+MaxStartups 10
+
+PrintLastlog yes
+PrintMotd no
+
+Subsystem sftp internal-sftp
