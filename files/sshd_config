@@ -6,6 +6,7 @@ RekeyLimit 1G 1H
 StrictModes yes
 TCPKeepAlive no
 UseDNS no
+LogLevel VERBOSE
 
 Ciphers chacha20-poly1305@openssh.com
 KexAlgorithms curve25519-sha256@libssh.org
