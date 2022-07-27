@@ -37,6 +37,7 @@ class openssh::systemd {
       groups     => ['sshaccess'],
       home       => $homedir,
       managehome => true,
+      password   => '*',
     }
   }
 }
