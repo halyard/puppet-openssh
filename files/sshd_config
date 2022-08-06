@@ -21,8 +21,8 @@ PubkeyAuthentication yes
 PermitEmptyPasswords no
 PermitRootLogin yes
 
-ClientAliveCountMax 2
-ClientAliveInterval 86400
+ClientAliveCountMax 5
+ClientAliveInterval 30
 
 AllowGroups sshaccess
 AuthorizedKeysFile /etc/ssh/authorized_keys/%u
