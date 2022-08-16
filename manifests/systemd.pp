@@ -23,6 +23,14 @@ class openssh::systemd {
     mode   => '0755',
   }
 
+  file { '/etc/sudoers.d/wheel':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => '%wheel ALL=(ALL:ALL) NOPASSWD: ALL',
+  }
+
   $openssh::users.each |String $user, Array[String] $keys| {
     $homedir = $user ? {
       'root'  => '/root',
@@ -32,9 +40,15 @@ class openssh::systemd {
       ensure  => file,
       content => template('openssh/authorized_keys.erb'),
     }
+
+    $usergroups = $user in $openssh::sudoers ? {
+      true  => ['sshaccess', 'wheel'],
+      false => ['sshaccess'],
+    }
+
     user { $user:
       ensure     => present,
-      groups     => ['sshaccess'],
+      groups     => $usergroups,
       home       => $homedir,
       managehome => true,
       password   => '*',
