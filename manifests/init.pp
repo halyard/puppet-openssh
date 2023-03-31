@@ -9,6 +9,7 @@ class openssh (
   case $facts['os']['family'] {
     'Archlinux': { include openssh::systemd }
     'Arch': { include openssh::systemd }
-    default: { fail("Hostname module does not support ${facts['os']['family']}") }
+    'Debian': { include openssh::systemd }
+    default: { fail("module does not support ${facts['os']['family']}") }
   }
 }
