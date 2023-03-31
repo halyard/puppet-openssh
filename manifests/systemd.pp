@@ -21,6 +21,8 @@ class openssh::systemd {
 
   group { 'sshaccess': }
 
+  group { 'wheel': }
+
   file { '/etc/ssh/authorized_keys':
     ensure => directory,
     owner  => root,
