@@ -1,7 +1,12 @@
 ##
 # Definitions for general Linux setup
 class openssh::systemd {
-  package { 'openssh': }
+  $package_name = $facts['os']['family'] ? {
+    /(Debian|Ubuntu)/ => 'openssh-server',
+    default           => 'openssh',
+  }
+
+  package { $package_name: }
 
   -> file { '/etc/ssh/sshd_config':
     ensure => file,
