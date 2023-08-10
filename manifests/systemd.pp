@@ -6,14 +6,23 @@ class openssh::systemd {
     default           => 'openssh',
   }
 
+  $service_name = $facts['os']['family'] ? {
+    /(Debian|Ubuntu)/ => 'ssh',
+    default           => 'sshd',
+  }
+
   package { $package_name: }
+
+  -> exec { '/usr/bin/ssh-keygen -A':
+    creates => '/etc/ssh/ssh_host_ed25519_key.pub',
+  }
 
   -> file { '/etc/ssh/sshd_config':
     ensure => file,
     source => 'puppet:///modules/openssh/sshd_config',
   }
 
-  ~> service { 'sshd':
+  ~> service { $service_name:
     ensure   => running,
     enable   => true,
     provider => 'systemd',
