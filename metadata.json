@@ -1,16 +1,12 @@
 {
   "name": "halyard-openssh",
-  "version": "0.0.42",
+  "version": "0.0.43",
   "author": "Les Aker",
   "license": "MIT",
   "summary": "Configure openssh server",
   "source": "https://github.com/halyard/puppet-openssh",
   "project_page": "https://github.com/halyard/puppet-openssh",
   "issues_url": "https://github.com/halyard/puppet-openssh/issues",
-  "dependencies": [
-
-  ],
-  "operatingsystem_support": [
-
-  ]
+  "dependencies": [],
+  "operatingsystem_support": []
 }
