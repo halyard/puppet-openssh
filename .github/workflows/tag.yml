@@ -13,13 +13,18 @@ jobs:
     steps:
     - name: Run base CI
       uses: akerl/.github/actions/base-ruby@main
+    - name: Authenticate to Github App
+      uses: akerl/.github/actions/github-app-auth@main
+      with:
+        client-id: ${{ secrets.APP_CLIENT_ID }}
+        private-key: ${{ secrets.APP_PRIVATE_KEY }}
     - name: Bump version and push tag
       uses: mathieudutour/github-tag-action@v6.2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         tag_prefix: ''
     - name: Post to hook-exporter
-      run: ./.github/exporter.sh
-      env:
-        EXPORTER_TOKEN: ${{ secrets.EXPORTER_TOKEN }}
-        JOB_STATUS: ${{ job.status }}
+      uses: akerl/.github/actions/hook-exporter@main
+      with:
+        token: ${{ secrets.EXPORTER_TOKEN }}
+        status: ${{ job.status }}

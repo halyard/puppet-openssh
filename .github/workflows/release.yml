@@ -11,11 +11,6 @@ jobs:
     steps:
     - name: Run base CI
       uses: akerl/.github/actions/base-ruby@main
-    - name: Authenticate to Github App
-      uses: akerl/.github/actions/github-app-auth@main
-      with:
-        client-id: ${{ secrets.APP_CLIENT_ID }}
-        private-key: ${{ secrets.APP_PRIVATE_KEY }}
     - name: Publish release
       uses: akerl/.github/actions/puppet-release@main
       with:
