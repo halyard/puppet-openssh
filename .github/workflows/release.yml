@@ -1,19 +1,22 @@
 ---
-name: Build
+name: Release
 'on':
   push:
     tags:
     - "**"
 jobs:
-  build:
-    name: Build
+  release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
     - name: Run base CI
       uses: akerl/.github/actions/base-ruby@main
-    - name: Set module version and release
-      run: |
-        jq ".version = \"${GITHUB_REF#refs/tags/}\"" metadata.json > tmp.json && mv tmp.json metadata.json
-        bundle exec rake release_from_tag
-      env:
-        BLACKSMITH_FORGE_API_KEY: "${{ secrets.BLACKSMITH_FORGE_API_KEY }}"
+    - name: Authenticate to Github App
+      uses: akerl/.github/actions/github-app-auth@main
+      with:
+        client-id: ${{ secrets.APP_CLIENT_ID }}
+        private-key: ${{ secrets.APP_PRIVATE_KEY }}
+    - name: Publish release
+      uses: akerl/.github/actions/puppet-release@main
+      with:
+        api_key: ${{ secrets.BLACKSMITH_FORGE_API_KEY }}

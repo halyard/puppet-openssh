@@ -5,8 +5,8 @@ name: Tag
     branches:
     - main
 jobs:
-  build:
-    name: Build
+  tag:
+    name: Tag
     runs-on: ubuntu-latest
     permissions:
       contents: write
