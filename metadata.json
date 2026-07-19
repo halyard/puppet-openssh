@@ -1,6 +1,6 @@
 {
   "name": "halyard-openssh",
-  "version": "0.0.48",
+  "version": "",
   "author": "Les Aker",
   "license": "MIT",
   "summary": "Configure openssh server",
