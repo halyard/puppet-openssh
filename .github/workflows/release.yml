@@ -1,0 +1,19 @@
+---
+name: Build
+'on':
+  push:
+    tags:
+    - "**"
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run base CI
+      uses: akerl/.github/actions/base-ruby@main
+    - name: Set module version and release
+      run: |
+        jq ".version = \"${GITHUB_REF#refs/tags/}\"" metadata.json > tmp.json && mv tmp.json metadata.json
+        bundle exec rake release_from_tag
+      env:
+        BLACKSMITH_FORGE_API_KEY: "${{ secrets.BLACKSMITH_FORGE_API_KEY }}"
